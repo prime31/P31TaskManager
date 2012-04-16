@@ -87,15 +87,15 @@ public class P31TaskManager : MonoBehaviour
 			{
 				// if the task is not running, prepare it. taskStarted could set a task to running
 				// so this needs to be the first item in the loop
-				if( task.state == P31AbstractTask.TaskState.NotRunning )
+				if( task.state == P31TaskState.NotRunning )
 					task.taskStarted();
 				
 				// tick any tasks that need to run
-				if( task.state == P31AbstractTask.TaskState.Running )
+				if( task.state == P31TaskState.Running )
 					task.tick();
 				
 				// prepare to clear out any tasks that are completed or cancelled
-				if( task.state == P31AbstractTask.TaskState.Complete || task.state == P31AbstractTask.TaskState.Canceled )
+				if( task.state == P31TaskState.Complete || task.state == P31TaskState.Canceled )
 					_completedTaskQueue.Enqueue( task );
 			}
 			
@@ -133,18 +133,18 @@ public class P31TaskManager : MonoBehaviour
 			{
 				// if the task is not running, prepare it. taskStarted could set a task to running
 				// so this needs to be the first item in the loop
-				if( task.state == P31AbstractTask.TaskState.NotRunning )
+				if( task.state == P31TaskState.NotRunning )
 					task.taskStarted();
 				
 				// tick any tasks that need to run
-				if( task.state == P31AbstractTask.TaskState.Running )
+				if( task.state == P31TaskState.Running )
 					System.Threading.ThreadPool.QueueUserWorkItem( ( obj ) =>
 					{
 						task.tick();
 					} );
 				
 				// prepare to clear out any tasks that are completed
-				if( task.state == P31AbstractTask.TaskState.Complete )
+				if( task.state == P31TaskState.Complete )
 					completedQueue.Enqueue( task );
 			}
 			

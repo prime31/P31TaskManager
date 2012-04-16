@@ -9,7 +9,7 @@ public class PrintInBackgroundTask : P31AbstractBackgroundTask
 	
 	public override void tick()
 	{
-		state = P31AbstractTask.TaskState.Complete;
+		state = P31TaskState.Complete;
 		System.Threading.Thread.Sleep( 1000 );
 		
 		Debug.Log( "[PrintInBackground] thread is bg? " + System.Threading.Thread.CurrentThread.IsBackground );

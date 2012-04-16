@@ -10,7 +10,7 @@ public class PrintTask : P31AbstractTask
 	public override void tick()
 	{
 		if( _count == 1 )
-			state = P31AbstractTask.TaskState.Complete;
+			state = P31TaskState.Complete;
 		_count++;
 		
 		Debug.Log( "[PrintTask] count: " + _count );

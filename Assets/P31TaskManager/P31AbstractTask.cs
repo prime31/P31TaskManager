@@ -6,15 +6,7 @@ using System.Collections;
 
 public abstract class P31AbstractTask
 {
-	public enum TaskState
-	{
-		NotRunning,
-		Running,
-		Paused,
-		Canceled,
-		Complete
-	}
-	public TaskState state; // the tasks current state
+	public P31TaskState state; // the tasks current state
 	public float delay; // delay when starting the task in seconds
 	public P31AbstractTask nextTask;
 	
@@ -38,7 +30,7 @@ public abstract class P31AbstractTask
 	public virtual void resetState()
 	{
 		_elapsedTime = 0;
-		state = TaskState.NotRunning;
+		state = P31TaskState.NotRunning;
 	}
 	
 	
@@ -52,21 +44,21 @@ public abstract class P31AbstractTask
 		// if we are delayed then set ourself as paused then unpause after the delay
 		if( delay > 0 )
 		{
-			state = TaskState.Paused;
+			state = P31TaskState.Paused;
 		
 			var delayInMilliseconds = (int)( delay * 1000 );
 			new System.Threading.Timer( obj =>
 			{
 				lock( this )
 				{
-					state = TaskState.Running;
+					state = P31TaskState.Running;
 				}
 			}, null, delayInMilliseconds, System.Threading.Timeout.Infinite );
 		}
 		else
 		{
 			// start immediately
-			state = TaskState.Running;
+			state = P31TaskState.Running;
 		}
 	}
 	
@@ -81,7 +73,7 @@ public abstract class P31AbstractTask
 			completionHandler( this );
 		
 		// if we have a next task to run and we were not cancelled, start it
-		if( nextTask != null && state != TaskState.Canceled )
+		if( nextTask != null && state != P31TaskState.Canceled )
 			P31TaskManager.instance.addTask( nextTask );
 	}
 	
@@ -91,19 +83,19 @@ public abstract class P31AbstractTask
 	/// </summary>
 	public void cancel()
 	{
-		state = TaskState.Canceled;
+		state = P31TaskState.Canceled;
 	}
 	
 	
 	public void pause()
 	{
-		state = TaskState.Paused;
+		state = P31TaskState.Paused;
 	}
 	
 	
 	public void unpause()
 	{
-		state = TaskState.Running;
+		state = P31TaskState.Running;
 	}
 	
 }

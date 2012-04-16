@@ -35,7 +35,7 @@ public class P31ActionTask : P31AbstractTask
 	public override void tick()
 	{
 		if( !_action() )
-			state = P31AbstractTask.TaskState.Complete;
+			state = P31TaskState.Complete;
 	}
 
 }
