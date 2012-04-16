@@ -1,7 +1,9 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Reflection;
 
 
 public class DemoScript : MonoBehaviour
@@ -53,5 +55,90 @@ public class DemoScript : MonoBehaviour
 		Debug.Log( "demoActionTask counter: " + _counter );
 
 		return true;
+	}
+	
+	
+
+	
+	public float stuff;
+	
+	void Start()
+	{
+		var i = 1000000;
+		
+		var dir = direct( i );
+		var val = getvalue( i );
+		var del = delegatemethod( i );
+		
+		Debug.Log( "direct - val: " + ( val - dir ) );
+		Debug.Log( "delegate - val: " + ( del - dir ) );
+	}
+
+	
+	TimeSpan getvalue( int count )
+	{
+		ValueType valueSelf = this;
+		var type = typeof( DemoScript );
+		var field = type.GetField( "stuff", BindingFlags.Instance | BindingFlags.Public );
+		
+		
+		var watch = new System.Diagnostics.Stopwatch();
+		watch.Start();
+		
+		for( var i = 0; i < count; i++ )
+		{
+			field.SetValue( valueSelf, i );
+		}
+		
+		watch.Stop();
+		Debug.Log( "getvalue: " + watch.Elapsed );
+		return watch.Elapsed;
+	}
+	
+	
+	TimeSpan delegatemethod( int count )
+	{
+		var methodInfo = typeof( GameObjectExtensions ).GetMethod( "setPosition", BindingFlags.Public | BindingFlags.Static );
+		Action<Transform, Vector3> fixedMethod = (Action<Transform, Vector3>)Delegate.CreateDelegate( typeof( Action<Transform, Vector3> ), methodInfo );
+		var vec = new Vector3( 1, 1, 1 );
+		var transform = gameObject.transform;
+		
+		var watch = new System.Diagnostics.Stopwatch();
+		watch.Start();
+		
+		for( var i = 0; i < count; i++ )
+		{
+			fixedMethod( transform, vec );
+		}
+		
+		watch.Stop();
+		Debug.Log( "delegatemethod: " + watch.Elapsed );
+		return watch.Elapsed;
+	}
+	
+	
+	TimeSpan direct( int count )
+	{
+		var watch = new System.Diagnostics.Stopwatch();
+		watch.Start();
+		
+		for( var i = 0; i < count; i++ )
+		{
+			stuff = i;
+		}
+		
+		watch.Stop();
+		Debug.Log( "direct: " + watch.Elapsed );
+		return watch.Elapsed;
+	}
+
+}
+
+
+public static class GameObjectExtensions
+{
+	public static void setPosition( this Transform self, Vector3 position )
+	{
+		self.position = position;
 	}
 }
