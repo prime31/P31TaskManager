@@ -4,7 +4,7 @@ using System.Collections;
 
 public enum P31LoopType
 {
-	None,
+	Normal,
 	Reverse,
 	PingPong
 }

@@ -8,6 +8,7 @@ using System.Reflection;
 
 public class DemoScript : MonoBehaviour
 {
+	public Transform someTransform;
 	private int _counter;
 	
 
@@ -42,6 +43,14 @@ public class DemoScript : MonoBehaviour
 				Debug.Log( "[PrintInBackground] thread is bg? " + System.Threading.Thread.CurrentThread.IsBackground );
 			};
 			P31TaskManager.instance.addBackgroundTask( t );
+		}
+		
+		
+		if( GUILayout.Button( "Tween Position" ) )
+		{
+			var tween = new P31PositionTween( someTransform, new Vector3( 10, 0, 0 ), 5 );
+			tween.ease = P31Easing.Bounce.EaseIn;
+			P31TaskManager.instance.addTask( tween );
 		}
 	}
 	
