@@ -28,6 +28,7 @@ public class P31TaskManager : MonoBehaviour
 				if( !_instance )
 				{
 					var obj = new GameObject( "P31TaskManager" );
+					DontDestroyOnLoad( obj );
 					_instance = obj.AddComponent<P31TaskManager>();
 				}
 			}
@@ -136,12 +137,15 @@ public class P31TaskManager : MonoBehaviour
 				if( task.state == P31TaskState.NotRunning )
 					task.taskStarted();
 				
-				// tick any tasks that need to run
+				// tick any tasks that need to run. background tasks only get ticked once
 				if( task.state == P31TaskState.Running )
+				{
+					task.state = P31TaskState.InBackground;
 					System.Threading.ThreadPool.QueueUserWorkItem( ( obj ) =>
 					{
 						task.tick();
 					} );
+				}
 				
 				// prepare to clear out any tasks that are completed
 				if( task.state == P31TaskState.Complete )
