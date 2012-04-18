@@ -5,3 +5,6 @@ This is a lightweight task manager that lets you run a task either on the main t
 tasks you can use the built in P31ActionTask which will tick any Action you pass in each frame until you set it to complete. For more complex tasks you can subclass
 P31AbstractTask for main thread tasks and P31AbstractBackgroundTask for background tasks. All non-background tasks can be paused, unpaused or cancelled (background tasks
 cannot be paused).
+
+A task is defined as anything that requires work. It could be as simple as a method that needs to be called each frame (similar to Update but with the ability to pause/unpause/cancel)
+or as complex as something that needs to run on a background thread.
