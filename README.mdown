@@ -8,3 +8,6 @@ cannot be paused).
 
 A task is defined as anything that requires work. It could be as simple as a method that needs to be called each frame (similar to Update but with the ability to pause/unpause/cancel)
 or as complex as something that needs to run on a background thread.
+
+Tasks can also be chained. Each task has a nextTask property that you can set with any other task. This allows you to perform a series of work with each step needing the
+result of the previous task or to simply sequence any tasks.
