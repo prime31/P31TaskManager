@@ -1,0 +1,7 @@
+P31TaskManager for Unity
+=======
+
+This is a lightweight task manager that lets you run a task either on the main thread (like a coroutine) or on a background thread. The general idea is for simple
+tasks you can use the built in P31ActionTask which will tick any Action you pass in each frame until you set it to complete. For more complex tasks you can subclass
+P31AbstractTask for main thread tasks and P31AbstractBackgroundTask for background tasks. All non-background tasks can be paused, unpaused or cancelled (background tasks
+cannot be paused).
