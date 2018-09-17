@@ -18,3 +18,5 @@ Library/*
 *.sln
 /Assembly-CSharp.pidb
 *.userprefs
+.vscode
+obj
